@@ -119,48 +119,47 @@ export default function GradeSystem() {
 
     return (
         <BootstrapLayout>
-    <div className="container py-4">
+    <div className="container py-4" style={{ maxWidth: "900px" }}>
         <Head title="ระบบตรวจสอบผลการเรียน" />
 
-        <h1 className="mb-4 text-primary fw-bold">📚 ตรวจสอบผลการเรียน</h1>
+        <h1 className="mb-4 text-primary fw-bold">📚 ตรวจสอบผลการเรียน111</h1>
 
         {/* จำนวนและปุ่มควบคุม */}
         <div className="mb-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
-            <h5 className="text-success mb-0">
-                👥 จำนวนนักศึกษาในระบบ: <span className="badge bg-success">{students.length}</span>
-            </h5>
-            <div className="btn-group">
-                <button
-                    className="btn btn-outline-success"
-                    onClick={() => {
-                        const name = prompt("กรอกชื่อนักศึกษาใหม่:");
-                        if (name) {
-                            const newId = `id${students.length + 1}`;
-                            const newStudent = {
-                                id: newId,
-                                name: name,
-                                faculty: "ไม่ระบุ",
-                                semester: "ภาคเรียนที่ 3/2568",
-                                courses: []
-                            };
-                            setStudents([...students, newStudent]);
-                            setSelectedStudent(newStudent);
-                        }
-                    }}
-                >
-                    ➕ เพิ่มชื่อนักศึกษา
-                </button>
-                <button
-                    className="btn btn-outline-danger"
-                    onClick={handleDeleteStudent}
-                    
-                
-                    
-                >
-                    ➖ ลบชื่อนักศึกษา
-                </button>
-            </div>
-        </div>
+  <h5 className="text-success mb-0">
+    👥 จำนวนนักศึกษาในระบบ: <span className="badge bg-success">{students.length}</span>
+  </h5>
+
+  <div className="d-flex align-items-center">
+    <button
+      className="btn btn-outline-success me-2"
+      onClick={() => {
+        const name = prompt("กรอกชื่อนักศึกษาใหม่:");
+        if (name) {
+          const newId = `id${students.length + 1}`;
+          const newStudent = {
+            id: newId,
+            name: name,
+            faculty: "ไม่ระบุ",
+            semester: "ภาคเรียนที่ 3/2568",
+            courses: []
+          };
+          setStudents([...students, newStudent]);
+          setSelectedStudent(newStudent);
+        }
+      }}
+    >
+      ➕ เพิ่มชื่อนักศึกษา
+    </button>
+    <button
+      className="btn btn-outline-danger"
+      onClick={handleDeleteStudent}
+    >
+      ➖ ลบชื่อนักศึกษา
+    </button>
+  </div>
+</div>
+
 
         {/* เลือกนักศึกษา */}
         <div className="mb-4">
@@ -195,43 +194,42 @@ export default function GradeSystem() {
         </div>
 
         {/* ตารางวิชา */}
-        <div className="table-responsive">
-            <table className="table table-striped table-bordered table-hover align-middle">
-                <thead className="table-dark text-center">
-                    <tr>
-                        <th>รหัสวิชา</th>
-                        <th>ชื่อวิชา</th>
-                        <th>หน่วยกิต</th>
-                        <th>คะแนน</th>
-                        <th>เกรด</th>
-                    </tr>
-                </thead>
-                <tbody>
-    {selectedStudent.courses.map((course, index) => {
+        <div className="table-responsive mt-4">
+  <table className="table table-striped table-bordered table-hover align-middle shadow-sm">
+    <thead className="table-dark text-center">
+      <tr>
+        <th>รหัสวิชา</th>
+        <th>ชื่อวิชา</th>
+        <th>หน่วยกิต</th>
+        <th>คะแนน</th>
+        <th>เกรด</th>
+      </tr>
+    </thead>
+    <tbody>
+      {selectedStudent.courses.map((course, index) => {
         const grade = getGrade(course.score);
         return (
-            <tr key={index}>
-                <td>{course.code}</td>
-                <td>{course.name}</td>
-                <td>{course.credit}</td>
-                <td>
-                    {course.score}
-                    {course.score < 60 && (
-                        <div className="text-danger small">⚠️ ควรปรับปรุงวิชานี้</div>
-                    )}
-                </td>
-                <td>
-                    <span className={`badge ${getGradeColor(grade)}`}>
-                        {grade}
-                    </span>
-                </td>
-            </tr>
+          <tr key={index}>
+            <td>{course.code}</td>
+            <td>{course.name}</td>
+            <td className="text-center">{course.credit}</td>
+            <td className="text-center">
+              {course.score}
+              {course.score < 60 && (
+                <div className="text-danger small">⚠️ ควรปรับปรุงวิชานี้</div>
+              )}
+            </td>
+            <td className="text-center">
+              <span className={`badge ${getGradeColor(grade)}`}>
+                {grade}
+              </span>
+            </td>
+          </tr>
         );
-    })}
-</tbody>
-                
-            </table>
-        </div>
+      })}
+    </tbody>
+  </table>
+</div>
     </div>
 </BootstrapLayout>
     );
