@@ -44,9 +44,19 @@ export default function GradeSystem() {
             ]
         }
     ]);
-
+    
     const [selectedStudent, setSelectedStudent] = useState(students[0]);
-
+    
+    const handleDeleteStudent = () => {
+        if (window.confirm("คุณต้องการลบข้อมูลนักศึกษานี้หรือไม่?")) {
+            if (students.length > 0) {
+                const updated = [...students];
+                updated.pop();
+                setStudents(updated);
+                setSelectedStudent(updated[0] || null);
+            }
+        }
+    };
     const getGrade = (score: number) => {
         if (score >= 80) return 'A';
         if (score >= 75) return 'B+';
@@ -96,6 +106,7 @@ export default function GradeSystem() {
             totalCredits += course.credit;
             totalGradePoints += gradePoint * course.credit;
         });
+        
     
         return (totalGradePoints / totalCredits).toFixed(2);
     };
@@ -141,14 +152,10 @@ export default function GradeSystem() {
                 </button>
                 <button
                     className="btn btn-outline-danger"
-                    onClick={() => {
-                        if (students.length > 0) {
-                            const updated = [...students];
-                            updated.pop();
-                            setStudents(updated);
-                            setSelectedStudent(updated[0] || null);
-                        }
-                    }}
+                    onClick={handleDeleteStudent}
+                    
+                
+                    
                 >
                     ➖ ลบชื่อนักศึกษา
                 </button>
