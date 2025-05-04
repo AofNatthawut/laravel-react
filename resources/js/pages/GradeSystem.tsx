@@ -215,9 +215,8 @@ export default function GradeSystem() {
             <td className="text-center">{course.credit}</td>
             <td className="text-center">
               {course.score}
-              {course.score < 60 && (
-                <div className="text-danger small">⚠️ ควรปรับปรุงวิชานี้</div>
-              )}
+              
+            
             </td>
             <td className="text-center">
               <span className={`badge ${getGradeColor(grade)}`}>
