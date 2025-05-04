@@ -122,7 +122,7 @@ export default function GradeSystem() {
     <div className="container py-4" style={{ maxWidth: "900px" }}>
         <Head title="ระบบตรวจสอบผลการเรียน" />
 
-        <h1 className="mb-4 text-primary fw-bold">📚 ตรวจสอบผลการเรียน111</h1>
+        <h1 className="mb-4 text-primary fw-bold">📚 ตรวจสอบผลการเรียน</h1><h3 className="mb-4 text-primary">(สำหรับอาจารย์)</h3>
 
         {/* จำนวนและปุ่มควบคุม */}
         <div className="mb-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
