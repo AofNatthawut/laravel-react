@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\Product;
+use App\Models\ThaiMovie;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -73,3 +76,53 @@ Route::get('/infinite-scroll', function () {
 Route::get('/GradeSystem', function () {
     return Inertia::render('GradeSystem');
 })->name('GradeSystem');
+
+// routes/web.php
+// use App\Models\Product;
+Route::get('/product', function () {
+    $products = Product::all();
+    return Inertia::render('ProductList', compact('products'));
+})->name('product');
+
+// routes/web.php
+Route::get('/product-others', function () {
+    return Inertia::render('ProductOthers');
+})->name('product-others');
+
+
+Route::get('/ThaiMovies', function () {
+    return Inertia::render('ThaiMovies');
+});
+
+
+
+Route::get('/product-manager', function () {
+    $p = Product::all();
+    return Inertia::render('ProductManager', compact('p'));
+})->name('product-manager');
+
+Route::get('/product/create', function () {
+    return Inertia::render('ProductForm');
+})->name('product.create');
+
+Route::get('/product/{id}/edit', function ($id) {
+    $product = Product::findOrFail($id);
+    return Inertia::render('ProductForm', compact('product'));
+})->name('product.edit');
+
+
+
+
+Route::get('/thai-movie-manager', function () {
+    $movies = ThaiMovie::all();
+    return Inertia::render('ThaiMovieManager', ['movies' => $movies]);
+})->name('thai-movie-manager');
+
+Route::get('/movie/create', function () {
+    return Inertia::render('ThaiMovieForm');
+})->name('movie.create');
+
+Route::get('/movie/{id}/edit', function ($id) {
+    $movie = ThaiMovie::findOrFail($id);
+    return Inertia::render('ThaiMovieForm', ['movie' => $movie]);
+})->name('movie.edit');

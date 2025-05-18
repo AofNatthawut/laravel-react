@@ -180,4 +180,5 @@ export default function BootstrapLayout({ children } :any ) {
             ></script>
         </div>
     );
+    
 }
