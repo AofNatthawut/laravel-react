@@ -15,11 +15,19 @@ Route::get('/product', function () {
     return response()->json($products); // Return as JSON
 });
 
-
-//Route::get('/movies', [ThaiMovieController::class, 'index']);
-
-
 Route::apiResource('/product', ProductController::class);
 
-Route::apiResource('/thai_movies', ThaiMovieController::class);
-//Route::apiResource('movie', ThaiMovieController::class);
+
+Route::apiResource('/movies', ThaiMovieController::class);
+
+// Route::prefix('movies')->group(function () {
+//    Route::get('/', [ThaiMovieController::class, 'index']);       // GET /api/movies
+//    Route::get('{id}', [ThaiMovieController::class, 'show']);     // GET /api/movies/{id}
+//     Route::post('/', [ThaiMovieController::class, 'store']);      // POST /api/movies
+//     Route::put('{id}', [ThaiMovieController::class, 'update']);   // PUT /api/movies/{id}
+//     Route::delete('{id}', [ThaiMovieController::class, 'destroy']); // DELETE /api/movies/{id}
+//     Route::get('/movies', [ThaiMovieController::class, 'index']);
+//     Route::post('/movies', [ThaiMovieController::class, 'store']);
+//     Route::put('/movies/{id}', [ThaiMovieController::class, 'update']);
+//     Route::delete('/movies/{id}', [ThaiMovieController::class, 'destroy']);}
+// );

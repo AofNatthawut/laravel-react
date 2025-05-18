@@ -111,18 +111,19 @@ Route::get('/product/{id}/edit', function ($id) {
 })->name('product.edit');
 
 
+Route::get('/thai-movie/create', function () {
+    return Inertia::render('ThaiMovieForm', [
+        'movie' => null,
+    ]);
+})->name('thai-movie.create');
 
+Route::get('/thai-movie/{id}/edit', function ($id) {
+    $movie = ThaiMovie::findOrFail($id);
+    return Inertia::render('ThaiMovieForm', [
+        'movie' => $movie,
+    ]);
+})->name('thai-movie.edit');
 
 Route::get('/thai-movie-manager', function () {
-    $movies = ThaiMovie::all();
-    return Inertia::render('ThaiMovieManager', ['movies' => $movies]);
-})->name('thai-movie-manager');
-
-Route::get('/movie/create', function () {
-    return Inertia::render('ThaiMovieForm');
-})->name('movie.create');
-
-Route::get('/movie/{id}/edit', function ($id) {
-    $movie = ThaiMovie::findOrFail($id);
-    return Inertia::render('ThaiMovieForm', ['movie' => $movie]);
-})->name('movie.edit');
+    return Inertia::render('ThaiMovieManager');
+});

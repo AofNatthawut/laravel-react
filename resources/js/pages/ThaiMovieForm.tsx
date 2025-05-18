@@ -5,24 +5,25 @@ import React, { useEffect, useState } from "react";
 const ThaiMovieForm = ({ movie }: any) => {
     const [errors, setErrors] = useState<any>({});
     const [formData, setFormData] = useState({
-        name: "",
-        description: "",
-        price: "",
-        year: "",
-        image: "",
+        title: "",
+        genre: "",
+        release_date: "",
+        synopsis: "",
+        image_url: "",
     });
 
     useEffect(() => {
         if (movie) {
             setFormData(movie);
         }
-    }, []);
+    }, [movie]);
 
-    const handleChange = (e: any) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const options = {
@@ -35,153 +36,73 @@ const ThaiMovieForm = ({ movie }: any) => {
         };
 
         try {
-            let url = movie ? `/api/movie/${movie.id}` : "/api/movie";
+            const url = movie ? `/api/movies/${movie.id}` : "/api/movies";
             const response = await fetch(url, options);
             const data = await response.json();
 
             if (response.ok) {
-                let msg = movie
-                    ? "Movie updated successfully!"
-                    : "Movie added successfully!";
-                alert(msg);
+                alert(movie ? "Movie updated successfully!" : "Movie added successfully!");
                 window.location.href = "/thai-movie-manager";
             } else {
-                setErrors(data.errors);
+                setErrors(data.errors || {});
             }
         } catch (error) {
             console.error("Error:", error);
         }
     };
 
+    const fields: { label: string; name: keyof typeof formData; type: string }[] = [
+        { label: "ชื่อเรื่อง (Title)", name: "title", type: "text" },
+        { label: "แนวภาพยนตร์ (Genre)", name: "genre", type: "text" },
+        { label: "วันเข้าฉาย (Release Date)", name: "release_date", type: "date" },
+        { label: "ลิงก์ภาพโปสเตอร์ (Image URL)", name: "image_url", type: "text" },
+    ];
+
     return (
         <BootstrapLayout>
-            <Head title="Thai Movie Form" />
-            <div className="container my-5">
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
-                        <div className="card shadow-sm border-primary">
-                            <div className="card-header bg-primary text-white">
-                                <h3 className="mb-0">
-                                    <i className="bi bi-film"></i>{" "}
-                                    {movie ? "แก้ไขข้อมูลภาพยนตร์" : "เพิ่มภาพยนตร์ใหม่"}
-                                </h3>
+            <Head title={movie ? "Edit Thai Movie" : "Create Thai Movie"} />
+            <div className="min-vh-100 bg-dark text-light py-5 px-3" style={{ fontFamily: "'Mali', cursive" }}>
+                <div className="container">
+                    <div className="bg-secondary rounded p-4 shadow-lg">
+                        <h1 className="text-center mb-4">{movie ? "🎬 Edit Thai Movie" : "🎥 Create Thai Movie"}</h1>
+                        <form onSubmit={handleSubmit}>
+                            {fields.map((field) => (
+                                <div key={field.name} className="mb-3">
+                                    <label className="form-label">{field.label}</label>
+                                    <input
+                                        type={field.type}
+                                        className="form-control bg-dark text-light"
+                                        name={field.name}
+                                        value={formData[field.name]}
+                                        onChange={handleChange}
+                                        placeholder={field.label}
+                                    />
+                                    {errors[field.name] && <small className="text-danger">{errors[field.name]}</small>}
+                                </div>
+                            ))}
+
+                            <div className="mb-3">
+                                <label className="form-label">เรื่องย่อ (Synopsis)</label>
+                                <textarea
+                                    className="form-control bg-dark text-light"
+                                    name="synopsis"
+                                    value={formData.synopsis}
+                                    onChange={handleChange}
+                                    placeholder="เรื่องย่อโดยย่อ"
+                                    rows={4}
+                                />
+                                {errors.synopsis && <small className="text-danger">{errors.synopsis}</small>}
                             </div>
-                            <div className="card-body">
-                                <form onSubmit={handleSubmit} noValidate>
-                                    {/* ชื่อภาพยนตร์ */}
-                                    <div className="mb-3">
-                                        <label className="form-label">
-                                            <i className="bi bi-type"></i> ชื่อภาพยนตร์
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className={`form-control ${errors.name ? "is-invalid" : ""}`}
-                                            name="name"
-                                            value={formData.name}
-                                            onChange={handleChange}
-                                            placeholder="Movie Name"
-                                        />
-                                        {errors.name && (
-                                            <div className="invalid-feedback">{errors.name}</div>
-                                        )}
-                                    </div>
 
-                                    {/* เรื่องย่อ */}
-                                    <div className="mb-3">
-                                        <label className="form-label">
-                                            <i className="bi bi-card-text"></i> เรื่องย่อ
-                                        </label>
-                                        <textarea
-                                            className={`form-control ${errors.description ? "is-invalid" : ""}`}
-                                            name="description"
-                                            value={formData.description}
-                                            onChange={handleChange}
-                                            placeholder="Movie Description"
-                                            rows={4}
-                                        />
-                                        {errors.description && (
-                                            <div className="invalid-feedback">{errors.description}</div>
-                                        )}
-                                    </div>
-
-                                    {/* ราคา */}
-                                    <div className="mb-3">
-                                        <label className="form-label">
-                                            <i className="bi bi-cash-coin"></i> ราคา (ถ้ามี)
-                                        </label>
-                                        <input
-                                            type="number"
-                                            className={`form-control ${errors.price ? "is-invalid" : ""}`}
-                                            name="price"
-                                            value={formData.price}
-                                            onChange={handleChange}
-                                            placeholder="Movie Price"
-                                        />
-                                        {errors.price && (
-                                            <div className="invalid-feedback">{errors.price}</div>
-                                        )}
-                                    </div>
-
-                                    {/* ปี */}
-                                    <div className="mb-3">
-                                        <label className="form-label">
-                                            <i className="bi bi-cash-coin"></i> ปี
-                                        </label>
-                                        <input
-                                            type="number"
-                                            className={`form-control ${errors.year ? "is-invalid" : ""}`}
-                                            name="year"
-                                            value={formData.year}
-                                            onChange={handleChange}
-                                            placeholder="Movie Year"
-                                        />
-                                        {errors.year && (
-                                            <div className="invalid-feedback">{errors.year}</div>
-                                        )}
-                                    </div>
-
-                                    {/* ลิงก์ภาพ */}
-                                    <div className="mb-3">
-                                        <label className="form-label">
-                                            <i className="bi bi-image"></i> ลิงก์ภาพ
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className={`form-control ${errors.image ? "is-invalid" : ""}`}
-                                            name="image"
-                                            value={formData.image}
-                                            onChange={handleChange}
-                                            placeholder="Image URL"
-                                        />
-                                        {errors.image && (
-                                            <div className="invalid-feedback">{errors.image}</div>
-                                        )}
-                                    </div>
-
-                                    {/* Preview ภาพ */}
-                                    {formData.image && (
-                                        <div className="text-center mb-4">
-                                            <img
-                                                src={formData.image}
-                                                alt="Preview"
-                                                className="img-fluid rounded shadow"
-                                                style={{ maxHeight: "300px" }}
-                                            />
-                                        </div>
-                                    )}
-
-                                    {/* ปุ่มบันทึกและกลับ */}
-                                    <div className="d-flex justify-content-between">
-                                        <a href="/thai-movie-manager" className="btn btn-outline-secondary">
-                                            <i className="bi bi-arrow-left"></i> กลับ
-                                        </a>
-                                        <button type="submit" className="btn btn-success">
-                                            <i className="bi bi-save"></i> บันทึกข้อมูล
-                                        </button>
-                                    </div>
-                                </form>
+                            <div className="text-center mt-4">
+                                <a href="/thai-movie-manager" className="btn btn-outline-light me-3">
+                                    <i className="bi bi-arrow-left"></i> Back
+                                </a>
+                                <button type="submit" className="btn btn-primary">
+                                    <i className="bi bi-save"></i> {movie ? "Update" : "Save"}
+                                </button>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
