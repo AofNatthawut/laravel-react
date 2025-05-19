@@ -90,9 +90,9 @@ Route::get('/product-others', function () {
 })->name('product-others');
 
 
-Route::get('/ThaiMovies', function () {
-    return Inertia::render('ThaiMovies');
-});
+// Route::get('/ThaiMovies', function () {
+//     return Inertia::render('ThaiMovies');
+// });
 
 
 
@@ -109,6 +109,8 @@ Route::get('/product/{id}/edit', function ($id) {
     $product = Product::findOrFail($id);
     return Inertia::render('ProductForm', compact('product'));
 })->name('product.edit');
+
+
 
 
 Route::get('/thai-movie/create', function () {
