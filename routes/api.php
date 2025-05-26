@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\ThaiMovieController;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\LeaveController;
+use Inertia\Inertia;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -20,14 +22,18 @@ Route::apiResource('/product', ProductController::class);
 
 Route::apiResource('/movies', ThaiMovieController::class);
 
-// Route::prefix('movies')->group(function () {
-//    Route::get('/', [ThaiMovieController::class, 'index']);       // GET /api/movies
-//    Route::get('{id}', [ThaiMovieController::class, 'show']);     // GET /api/movies/{id}
-//     Route::post('/', [ThaiMovieController::class, 'store']);      // POST /api/movies
-//     Route::put('{id}', [ThaiMovieController::class, 'update']);   // PUT /api/movies/{id}
-//     Route::delete('{id}', [ThaiMovieController::class, 'destroy']); // DELETE /api/movies/{id}
-//     Route::get('/movies', [ThaiMovieController::class, 'index']);
-//     Route::post('/movies', [ThaiMovieController::class, 'store']);
-//     Route::put('/movies/{id}', [ThaiMovieController::class, 'update']);
-//     Route::delete('/movies/{id}', [ThaiMovieController::class, 'destroy']);}
-// );
+
+Route::get('/leaves', [LeaveController::class, 'index']);
+Route::post('/leaves', [LeaveController::class, 'store']);
+Route::put('/leaves/{id}', [LeaveController::class, 'update']);
+Route::delete('/leaves/{id}', [LeaveController::class, 'destroy']);
+Route::put('/leaves/{id}/status', [LeaveController::class, 'updateStatus']);
+
+
+
+Route::get('/leave-form', fn() => Inertia::render('LeaveForm'));
+
+Route::get('/leave-form/{id}', function ($id) {
+    $leave = \App\Models\Leave::findOrFail($id);
+    return Inertia::render('LeaveForm', ['leave' => $leave]);
+});

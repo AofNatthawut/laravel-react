@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\LeaveController;
 use App\Models\Product;
 use App\Models\ThaiMovie;
 use Illuminate\Support\Facades\Route;
@@ -128,4 +129,19 @@ Route::get('/thai-movie/{id}/edit', function ($id) {
 
 Route::get('/thai-movie-manager', function () {
     return Inertia::render('ThaiMovieManager');
+});
+
+
+
+// เส้นทางหลักของระบบการลางาน
+Route::get('/leave', [LeaveController::class, 'index'])->name('leave.index');
+Route::get('/leave/create', [LeaveController::class, 'create'])->name('leave.create');
+Route::get('/leave/{id}/edit', [LeaveController::class, 'edit'])->name('leave.edit');
+Route::post('/leave', [LeaveController::class, 'store'])->name('leave.store');
+Route::put('/leave/{id}', [LeaveController::class, 'update'])->name('leave.update');
+Route::delete('/leave/{id}', [LeaveController::class, 'destroy'])->name('leave.destroy');
+
+// ถ้าอยากให้เปิด localhost:8000 แล้วเจอหน้านี้เลย:
+Route::get('/', function () {
+    return redirect('/leave');
 });
