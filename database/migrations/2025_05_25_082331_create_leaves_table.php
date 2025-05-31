@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('end_date');
             $table->text('reason')->nullable();
             $table->string('status')->default('pending'); // pending, approved, rejected
-            $table->integer('days_requested');
+            $table->integer('days_requested')->nullable();
             $table->integer('days_left')->default(12); // รวม balance ในตารางเดียว
             $table->timestamps();
         });
