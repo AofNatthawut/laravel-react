@@ -22,7 +22,7 @@ class LeaveController extends Controller
     {
         $validated = $request->validate([
             'employee_name' => 'required|string',
-            'leave_type' => 'required|string',
+            'type' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'reason' => 'nullable|string'
@@ -63,7 +63,7 @@ class LeaveController extends Controller
         // อัปเดตข้อมูลใบลา
         $validated = $request->validate([
             'employee_name' => 'required|string',
-            'leave_type' => 'required|string',
+            'type' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'reason' => 'nullable|string',

@@ -65,7 +65,7 @@ export default function LeaveManager({ leaves, flash }: any) {
                         <td>{leave.employee_name}</td>
                         <td>
                           <span className="badge bg-info text-dark px-3 py-2">
-                            {leave.leave_type}
+                            {leave.type}
                           </span>
                         </td>
                         <td>{leave.start_date}</td>
@@ -85,7 +85,7 @@ export default function LeaveManager({ leaves, flash }: any) {
                               </button>
                             )}
                             <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(leave.id)}>
-                              🗑️ ยกเลิก
+                              🗑️ ลบ
                             </button>
                           </div>
                         </td>

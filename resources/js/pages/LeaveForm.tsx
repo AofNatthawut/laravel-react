@@ -5,7 +5,7 @@ import BootstrapLayout from '../layouts/BootstrapLayout';
 export default function LeaveForm({ leave = null, errors = {} }: any) {
   const [formData, setFormData] = useState({
     employee_name: leave?.employee_name || '',
-    leave_type: leave?.leave_type || '',
+    type: leave?.type || '',
     start_date: leave?.start_date || '',
     end_date: leave?.end_date || '',
     reason: leave?.reason || '',
@@ -31,7 +31,7 @@ export default function LeaveForm({ leave = null, errors = {} }: any) {
   const handleReset = () => {
     setFormData({
       employee_name: '',
-      leave_type: '',
+      type: '',
       start_date: '',
       end_date: '',
       reason: '',
@@ -66,9 +66,9 @@ export default function LeaveForm({ leave = null, errors = {} }: any) {
                 <div className="col-md-6">
                   <label className="form-label">ประเภทการลา</label>
                   <select
-                    name="leave_type"
-                    className={`form-select ${errors.leave_type ? 'is-invalid' : ''}`}
-                    value={formData.leave_type}
+                    name="type"
+                    className={`form-select ${errors.type ? 'is-invalid' : ''}`}
+                    value={formData.type}
                     onChange={handleChange}
                   >
                     <option value="">-- เลือก --</option>
@@ -77,8 +77,8 @@ export default function LeaveForm({ leave = null, errors = {} }: any) {
                     <option value="ลาพักร้อน">ลาพักร้อน</option>
                     <option value="ลาไม่รับค่าจ้าง">ลาไม่รับค่าจ้าง</option>
                   </select>
-                  {errors.leave_type && (
-                    <div className="invalid-feedback">{errors.leave_type}</div>
+                  {errors.type && (
+                    <div className="invalid-feedback">{errors.type}</div>
                   )}
                 </div>
               </div>
